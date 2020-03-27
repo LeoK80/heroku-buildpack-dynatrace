@@ -76,9 +76,9 @@ downloadAgent() {
 
 setCustomHostname() {
     puts_step "Setting Custom Hostname in hostname.conf"
-    echo ${DT_HEROKU_CUSTOM_HOSTNAME:-} >"${BUILD_DIR}/dynatrace/oneagent/agent/hostname.conf"
+    echo ${DT_HEROKU_CUSTOM_HOSTNAME:-} >"${BUILD_DIR}/dynatrace/oneagent/agent/config/hostname.conf"
     echo $(ls "${BUILD_DIR}/dynatrace/oneagent/agent")
-    echo $(cat "${BUILD_DIR}/dynatrace/oneagent/agent/hostname.conf")
+    echo $(cat "${BUILD_DIR}/dynatrace/oneagent/agent/config/hostname.conf")
     puts_step "Setting Custom Hostname done!"
 }
 
