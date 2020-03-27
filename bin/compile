@@ -1,14 +1,18 @@
 #!/usr/bin/env bash
 # bin/compile <build-dir> <cache-dir> <env-dir>
 
-set -e   # fail fast
-# set -x # enable debugging
+set -e # fail fast
+set -x # enable debugging
 
 # Configure directories
 BUILD_DIR=$1
 CACHE_DIR=$2
 ENV_DIR=$3
-BP_DIR=`cd $(dirname $0); cd ..; pwd`
+BP_DIR=$(
+    cd $(dirname $0)
+    cd ..
+    pwd
+)
 
 PROFILE_PATH="$BUILD_DIR/.profile.d/dynatrace.sh"
 EXPORT_PATH=/dev/null
@@ -31,15 +35,15 @@ downloadAgent() {
         SSL_INSECURE_WGET="--no-check-certificate"
     fi
 
-    if curl -h &> /dev/null ; then
+    if curl -h &>/dev/null; then
         local DOWNLOADCOMMAND="curl -fL --connect-timeout 10 $SSL_INSECURE_CURL ${DOWNLOADURL} -o ${INSTALLERFILE} -A ${USERAGENT}"
-    elif wget -h &> /dev/null ; then
+    elif wget -h &>/dev/null; then
         local DOWNLOADCOMMAND="wget --connect-timeout=10 $SSL_INSECURE_WGET ${DOWNLOADURL} -O ${INSTALLERFILE} --user-agent=${USERAGENT}"
     else
         puts_error "Neither curl nor wget executable found!"
         exit 1
     fi
-    
+
     local RETRYTIMEOUT=0
     local DOWNLOADERRORS=0
     while [[ $DOWNLOADERRORS -lt 3 ]]; do
@@ -47,10 +51,10 @@ downloadAgent() {
 
         puts_step "Downloading OneAgent installer from ${DOWNLOADURL}"
         $DOWNLOADCOMMAND --header "$DOWNLOADHEADER"
-    
+
         if [[ $? != 0 ]]; then
-            DOWNLOADERRORS=$((DOWNLOADERRORS+1))
-            RETRYTIMEOUT=$(($RETRYTIMEOUT+5))
+            DOWNLOADERRORS=$((DOWNLOADERRORS + 1))
+            RETRYTIMEOUT=$(($RETRYTIMEOUT + 5))
 
             if [[ $DOWNLOADERRORS -lt 3 ]]; then
                 puts_warn "Dynatrace OneAgent download failed, retrying in $RETRYTIMEOUT seconds"
@@ -74,8 +78,8 @@ export_env $ENV_DIR '^(DT_|SSL_MODE|SKIP_ERRORS|BUILDPACK_)' ''
 
 # DT_TENANT and DT_API_TOKEN must be set
 if [ -z "${DT_TENANT}" ] || [ -z "${DT_API_TOKEN}" ]; then
-  puts_error "DT_TENANT and DT_API_TOKEN must be set. Please consult the Dynatrace help portal for details."
-  exit 1
+    puts_error "DT_TENANT and DT_API_TOKEN must be set. Please consult the Dynatrace help portal for details."
+    exit 1
 fi
 
 puts_verbose "BUILD_DIR = $BUILD_DIR"
@@ -130,3 +134,5 @@ set_env "LD_PRELOAD" "/app/dynatrace/oneagent/agent/lib64/liboneagentproc.so"
 set_env "DT_IGNOREDYNAMICPORT" "\${DT_IGNOREDYNAMICPORT:-true}"
 
 puts_step "Dynatrace OneAgent ${VERSION} installed successfully"
+
+env
