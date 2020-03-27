@@ -78,6 +78,7 @@ setCustomHostname() {
 
     if [[ -n "${DT_HEROKU_CUSTOM_HOSTNAME}" ]]; then
         puts_step "Setting Custom Hostname in hostname.conf"
+        mkdir -p "${BUILD_DIR}/dynatrace/oneagent/agent/config"
         echo ${DT_HEROKU_CUSTOM_HOSTNAME:-''} >"${BUILD_DIR}/dynatrace/oneagent/agent/config/hostname.conf"
         echo $(ls "${BUILD_DIR}/dynatrace/oneagent/agent/config")
         echo $(cat "${BUILD_DIR}/dynatrace/oneagent/agent/config/hostname.conf")
