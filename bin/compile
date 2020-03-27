@@ -76,7 +76,7 @@ downloadAgent() {
 
 setCustomHostname() {
 
-    if [[ -z ${DT_HEROKU_CUSTOM_HOSTNAME} ]]; then
+    if [[ -n "${DT_HEROKU_CUSTOM_HOSTNAME}" ]]; then
         puts_step "Setting Custom Hostname in hostname.conf"
         echo ${DT_HEROKU_CUSTOM_HOSTNAME:-''} >"${BUILD_DIR}/dynatrace/oneagent/agent/config/hostname.conf"
         echo $(ls "${BUILD_DIR}/dynatrace/oneagent/agent/config")
