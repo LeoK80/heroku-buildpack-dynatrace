@@ -2,7 +2,7 @@
 # bin/compile <build-dir> <cache-dir> <env-dir>
 
 set -e # fail fast
-## set -x # enable debugging
+set -x # enable debugging
 
 # Configure directories
 BUILD_DIR=$1
@@ -77,7 +77,7 @@ downloadAgent() {
 setCustomHostname() {
     puts_step "Setting Custom Hostname in hostname.conf"
     echo ${DT_HEROKU_CUSTOM_HOSTNAME:-} >"${BUILD_DIR}/dynatrace/oneagent/agent/config/hostname.conf"
-    echo $(ls "${BUILD_DIR}/dynatrace/oneagent/agent")
+    echo $(ls "${BUILD_DIR}/dynatrace/oneagent/agent/config")
     echo $(cat "${BUILD_DIR}/dynatrace/oneagent/agent/config/hostname.conf")
     puts_step "Setting Custom Hostname done!"
 }
@@ -142,9 +142,6 @@ set_env "LD_PRELOAD" "/app/dynatrace/oneagent/agent/lib64/liboneagentproc.so"
 set_env "DT_IGNOREDYNAMICPORT" "\${DT_IGNOREDYNAMICPORT:-true}"
 
 # set custom hostname based on provided environment variable
-set +e
 setCustomHostname
-
-set -e
 
 puts_step "Dynatrace OneAgent ${VERSION} installed successfully"
