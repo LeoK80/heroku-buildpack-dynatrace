@@ -38,6 +38,7 @@ The Dynatrace buildpack supports the following configurations:
 | DT_TAGS | *Optional* - The tags you want to add to the monitored apps. |
 | DT_NETWORK_ZONE | *Optional* - To look for communication endpoints located on the indicated region. |
 | SKIP_ERRORS | *Optional* - If set to 1, app deployment won't fail on agent installer download errors |
+| DT_HEROKU_CUSTOM_HOSTNAME | *Optional* - set a custom hostname that will be set in a hostname.conf file for the agent to use |
 
 
 ## License

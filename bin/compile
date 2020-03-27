@@ -74,6 +74,11 @@ downloadAgent() {
     fi
 }
 
+setCustomHostname() {
+    puts_step "Setting Custom Hostname in hostname.conf"
+    ${DT_HEROKU_CUSTOM_HOSTNAME:-} >"${BUILD_DIR}/dynatrace/oneagent/hostname.conf"
+}
+
 export_env $ENV_DIR '^(DT_|SSL_MODE|SKIP_ERRORS|BUILDPACK_)' ''
 
 # DT_TENANT and DT_API_TOKEN must be set
@@ -133,6 +138,9 @@ set_env "LD_PRELOAD" "/app/dynatrace/oneagent/agent/lib64/liboneagentproc.so"
 # ignore dynamic ports for service generation
 set_env "DT_IGNOREDYNAMICPORT" "\${DT_IGNOREDYNAMICPORT:-true}"
 
-puts_step "Dynatrace OneAgent ${VERSION} installed successfully"
+# set custom hostname based on provided environment variable
+set +e
+setCustomHostname
+set -e
 
-env
+puts_step "Dynatrace OneAgent ${VERSION} installed successfully"
