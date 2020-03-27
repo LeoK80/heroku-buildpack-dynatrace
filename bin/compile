@@ -76,7 +76,7 @@ downloadAgent() {
 
 setCustomHostname() {
     puts_step "Setting Custom Hostname in hostname.conf"
-    ${DT_HEROKU_CUSTOM_HOSTNAME:-} >"${BUILD_DIR}/dynatrace/oneagent/hostname.conf"
+    echo ${DT_HEROKU_CUSTOM_HOSTNAME:-} >"${BUILD_DIR}/dynatrace/oneagent/hostname.conf"
 }
 
 export_env $ENV_DIR '^(DT_|SSL_MODE|SKIP_ERRORS|BUILDPACK_)' ''
