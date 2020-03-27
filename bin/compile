@@ -82,8 +82,8 @@ setCustomHostname() {
         echo $(ls "${BUILD_DIR}/dynatrace/oneagent/agent/config")
         echo $(cat "${BUILD_DIR}/dynatrace/oneagent/agent/config/hostname.conf")
         puts_step "Setting Custom Hostname done!"
-    elif
-      puts_step "No custom hostname specified in environment variable DT_HEROKU_CUSTOM_HOSTNAME or DT_HEROKU_CUSTOM_HOSTNAME doesn't exist."
+    else
+        puts_step "No custom hostname specified in environment variable DT_HEROKU_CUSTOM_HOSTNAME or DT_HEROKU_CUSTOM_HOSTNAME doesn't exist."
     fi
 }
 
