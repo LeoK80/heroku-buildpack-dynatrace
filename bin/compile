@@ -78,14 +78,10 @@ setCustomHostname() {
 
     if [[ -n "${DT_HEROKU_CUSTOM_HOSTNAME}" ]]; then
         puts_step "Setting Custom Hostname in hostname.conf"
-        # mkdir -p "${BUILD_DIR}/dynatrace/oneagent/agent/config"
-        # echo ${DT_HEROKU_CUSTOM_HOSTNAME:-''} >"${BUILD_DIR}/dynatrace/oneagent/agent/config/hostname.conf"
-        # echo $(ls "${BUILD_DIR}/dynatrace/oneagent/agent/config")
-        # echo $(cat "${BUILD_DIR}/dynatrace/oneagent/agent/config/hostname.conf")
-        mkdir -p "/var/lib/dynatrace/oneagent/agent/config"
-        echo ${DT_HEROKU_CUSTOM_HOSTNAME:-''} >"/var/lib/dynatrace/oneagent/agent/config/hostname.conf"
-        echo "var/lib/dynatrace/oneagent/agent/config directory contents" $(ls "/var/lib/dynatrace/oneagent/agent/config")
-        echo "file contents" $(cat "/var/lib/dynatrace/oneagent/agent/config/hostname.conf")
+        mkdir -p "${BUILD_DIR}/dynatrace/oneagent/agent/config"
+        echo ${DT_HEROKU_CUSTOM_HOSTNAME:-''} >"${BUILD_DIR}/dynatrace/oneagent/agent/config/hostname.conf"
+        echo $(ls "${BUILD_DIR}/dynatrace/oneagent/agent/config")
+        echo $(cat "${BUILD_DIR}/dynatrace/oneagent/agent/config/hostname.conf")
         puts_step "Setting Custom Hostname done!"
     else
         puts_step "No custom hostname specified in environment variable DT_HEROKU_CUSTOM_HOSTNAME or DT_HEROKU_CUSTOM_HOSTNAME doesn't exist."
